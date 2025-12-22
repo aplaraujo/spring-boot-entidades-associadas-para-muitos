@@ -9,9 +9,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name="tb_category")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Category {
 
     @Id
@@ -22,30 +30,4 @@ public class Category {
     @ManyToMany(mappedBy="categories")
     private Set<Product> products = new HashSet<>();
 
-    public Category() {}
-
-    public Category(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
-    }
 }
