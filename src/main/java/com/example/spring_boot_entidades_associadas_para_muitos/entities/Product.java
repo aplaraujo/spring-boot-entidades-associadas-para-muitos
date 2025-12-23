@@ -1,6 +1,8 @@
 package com.example.spring_boot_entidades_associadas_para_muitos.entities;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -34,5 +36,5 @@ public class Product {
     @JoinTable(name="tb_product_category", joinColumns=@JoinColumn(name="product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
-    
+
 }

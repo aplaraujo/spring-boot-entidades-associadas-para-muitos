@@ -2,6 +2,9 @@ package com.example.spring_boot_entidades_associadas_para_muitos.controllers;
 
 import java.net.URI;
 
+import com.example.spring_boot_entidades_associadas_para_muitos.entities.Product;
+import com.example.spring_boot_entidades_associadas_para_muitos.mappers.ProductMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,15 +18,24 @@ import com.example.spring_boot_entidades_associadas_para_muitos.services.Product
 
 @RestController
 @RequestMapping(value = "/products")
-public class ProductController {
+@RequiredArgsConstructor
+public class ProductController implements GenericController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService service;
+    private final ProductMapper mapper;
 
     @PostMapping
-    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
-        dto = productService.insert(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
-        return ResponseEntity.created(uri).body(dto);
+    public ResponseEntity<Void> save(@RequestBody ProductDTO dto) {
+        Product product = mapper.toEntity(dto);
+        service.save(product);
+        var url = generateHeaderLocation(product.getId());
+        return ResponseEntity.created(url).build();
     }
+
+//    @PostMapping
+//    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
+//        dto = productService.insert(dto);
+//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+//        return ResponseEntity.created(uri).body(dto);
+//    }
 }
